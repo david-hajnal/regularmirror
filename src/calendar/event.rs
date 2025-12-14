@@ -10,6 +10,8 @@ pub struct Event {
     pub end_date: String,
     pub location: String,
     pub description: String,
+    #[serde(default)]
+    pub calendar_id: String,
 }
 
 const STORAGE_PATH: &str = "data/events.json";

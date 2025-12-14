@@ -2,7 +2,7 @@ use super::event::Event;
 use chrono::{DateTime, NaiveDateTime, Utc};
 use chrono_tz::Tz;
 
-pub fn parse_ics(content: &str, timezone: &str) -> Vec<Event> {
+pub fn parse_ics(content: &str, timezone: &str, calendar_id: &str) -> Vec<Event> {
     let mut events = Vec::new();
     let mut current_event: Option<EventBuilder> = None;
 
@@ -13,7 +13,7 @@ pub fn parse_ics(content: &str, timezone: &str) -> Vec<Event> {
         let line = line.trim();
 
         if line == "BEGIN:VEVENT" {
-            current_event = Some(EventBuilder::default());
+            current_event = Some(EventBuilder::new(calendar_id.to_string()));
         } else if line == "END:VEVENT" {
             if let Some(builder) = current_event.take() {
                 events.push(builder.build());
@@ -35,16 +35,27 @@ pub fn parse_ics(content: &str, timezone: &str) -> Vec<Event> {
     events
 }
 
-#[derive(Default)]
 struct EventBuilder {
     title: String,
     start_date: String,
     end_date: String,
     location: String,
     description: String,
+    calendar_id: String,
 }
 
 impl EventBuilder {
+    fn new(calendar_id: String) -> Self {
+        EventBuilder {
+            title: String::new(),
+            start_date: String::new(),
+            end_date: String::new(),
+            location: String::new(),
+            description: String::new(),
+            calendar_id,
+        }
+    }
+
     fn build(self) -> Event {
         Event {
             title: self.title,
@@ -52,6 +63,7 @@ impl EventBuilder {
             end_date: self.end_date,
             location: self.location,
             description: self.description,
+            calendar_id: self.calendar_id,
         }
     }
 }

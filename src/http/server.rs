@@ -129,7 +129,7 @@ fn generate_index_html() -> String {
         }
         .header {
             text-align: right;
-            font-size: 14px;
+            font-size: 16px;
             letter-spacing: 2px;
             color: #999;
             margin-bottom: 40px;
@@ -140,7 +140,7 @@ fn generate_index_html() -> String {
             padding-bottom: 20px;
         }
         .day-header {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: bold;
             text-transform: uppercase;
             margin-bottom: 15px;
@@ -149,15 +149,15 @@ fn generate_index_html() -> String {
         .event-item {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             padding-left: 0;
         }
         .event-dot {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            margin-right: 10px;
-            margin-top: 4px;
+            margin-right: 12px;
+            margin-top: 5px;
             flex-shrink: 0;
         }
         .event-dot.active {
@@ -169,18 +169,37 @@ fn generate_index_html() -> String {
         .event-dot.video {
             background-color: #4a9eff;
         }
+        .event-dot.cal0 {
+            background-color: #ff6b35;
+        }
+        .event-dot.cal1 {
+            background-color: #4a9eff;
+        }
+        .event-dot.cal2 {
+            background-color: #9b59b6;
+        }
+        .event-dot.cal3 {
+            background-color: #2ecc71;
+        }
+        .event-dot.cal4 {
+            background-color: #f1c40f;
+        }
+        .event-dot.cal5 {
+            background-color: #e74c3c;
+        }
         .event-content {
             flex: 1;
         }
         .event-time {
             color: #ccc;
-            font-size: 13px;
-            margin-right: 8px;
+            font-size: 26px;
+            margin-right: 10px;
         }
         .event-title {
             color: #fff;
-            font-size: 14px;
+            font-size: 28px;
             display: inline;
+            font-weight: 500;
         }
         .event-tag {
             display: inline-block;
@@ -208,16 +227,16 @@ fn generate_index_html() -> String {
         }
         .event-location {
             color: #999;
-            font-size: 12px;
+            font-size: 14px;
             text-align: right;
             margin-top: -20px;
             margin-bottom: 10px;
         }
         .event-description {
             color: #999;
-            font-size: 13px;
-            margin-left: 22px;
-            margin-top: 4px;
+            font-size: 14px;
+            margin-left: 26px;
+            margin-top: 6px;
         }
         .no-events {
             text-align: center;
@@ -257,9 +276,9 @@ fn generate_index_html() -> String {
             let start_time = extract_time(&event.start_date);
             let end_time = extract_time(&event.end_date);
 
-            // Determine event type for dot color
-            let dot_class = if !event.description.is_empty() && event.description.contains("video") {
-                "video"
+            // Use calendar_id for color (fallback to "active" if empty)
+            let dot_class = if !event.calendar_id.is_empty() {
+                &event.calendar_id
             } else {
                 "active"
             };

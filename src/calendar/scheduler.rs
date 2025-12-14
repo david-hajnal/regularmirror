@@ -22,11 +22,12 @@ pub fn start_background_sync(config: Config) {
 
             let mut all_events = Vec::new();
 
-            for url in &config.ics_urls {
+            for (index, url) in config.ics_urls.iter().enumerate() {
                 match client.fetch_url(url) {
                     Ok(ics_content) => {
-                        let events = ics_parser::parse_ics(&ics_content, &config.timezone);
-                        println!("[Background] ✓ Parsed {} events from {}", events.len(), url);
+                        let calendar_id = format!("cal{}", index);
+                        let events = ics_parser::parse_ics(&ics_content, &config.timezone, &calendar_id);
+                        println!("[Background] ✓ Parsed {} events from {} ({})", events.len(), url, calendar_id);
                         all_events.extend(events);
                     }
                     Err(e) => {
