@@ -1,4 +1,4 @@
-# Regular HTTP Server
+# Simple HTTP Server for Displaying Calendar Events
 
 A lightweight HTTP server built with vanilla Rust (no web frameworks) that displays your Google Calendar events in a clean, dark-themed agenda view.
 
